@@ -1,0 +1,7 @@
+<mat-card>
+    <mat-card-content>
+        <mat-list role="list" *ngFor="let qs of questions" >
+            <mat-list-item class="clickLink" role="listitem" (click)="api.selectQuestion(qs)" >{{qs.text}}</mat-list-item>
+        </mat-list>
+    </mat-card-content>
+  </mat-card>
