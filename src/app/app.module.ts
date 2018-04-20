@@ -1,8 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule, HTTP_INTERCEPTORS, HttpInterceptor } from '@angular/common/http';
 import { MatListModule } from '@angular/material/list';
 import { RouterModule } from '@angular/router';
 
@@ -20,12 +20,14 @@ import { HomeComponent } from './home.component';
 import { NavComponent } from './nav.component';
 import { QuizComponent } from './quiz/quiz.component';
 import { QuizesComponent } from './quizes/quizes.component';
+import { RegisterComponent } from './register/register.component';
+import { AuthService } from './auth.service';
+import { AuthInterceptor } from './auth.interceptor';
 
 const routes = [
   { path: '', component: HomeComponent },
-  { path: 'question', component: QuestionComponent },
   { path: 'question/:quizid', component: QuestionComponent },
-  { path: 'questions', component: QuestionsComponent },
+  { path: 'register', component: RegisterComponent },
   { path: 'quiz', component: QuizComponent }
 ];
 
@@ -37,14 +39,19 @@ const routes = [
     QuestionsComponent,
     NavComponent,
     QuizComponent,
-    QuizesComponent
+    QuizesComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule, BrowserAnimationsModule, RouterModule.forRoot(routes)
     , MatButtonModule, MatInputModule, MatFormFieldModule, MatCardModule
-    , FormsModule, HttpClientModule, MatListModule, MatToolbarModule
+    , FormsModule, ReactiveFormsModule, HttpClientModule, MatListModule, MatToolbarModule
   ],
-  providers: [ApiService],
+  providers: [ApiService, AuthService, {
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

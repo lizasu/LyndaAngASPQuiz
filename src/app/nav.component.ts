@@ -4,6 +4,8 @@ import { Component } from '@angular/core';
   selector: 'app-nav',
   template: `<mat-toolbar>
                 <button mat-button routerLink='/quiz'>Quiz</button>
+                <span style="flex: 1 1 auto;"></span>
+                <button mat-button routerLink='/register'>Register</button>
 </mat-toolbar>`
 })
 export class NavComponent {
